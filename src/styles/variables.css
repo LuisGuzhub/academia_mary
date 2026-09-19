@@ -1,0 +1,19 @@
+:root {
+  --color-primary: #062a52;
+  --color-secondary: #0d3d6b;
+  --color-dark: #031f3d;
+  --color-accent: #ffc32e;
+  --color-accent-hover: #f2b015;
+  --color-accent-soft: #fff9e9;
+  --color-background: #f5f7fa;
+  --color-surface: #ffffff;
+  --color-text: #071d35;
+  --color-muted: #667386;
+  --color-border: #e6eaf0;
+  --color-success: #258345;
+  --color-stars: #ee9d1a;
+  --border-radius: 10px;
+  --container-width: 1280px;
+  --shadow: 0 6px 24px rgb(3 31 61 / 6%);
+  --header-height: 90px;
+}
