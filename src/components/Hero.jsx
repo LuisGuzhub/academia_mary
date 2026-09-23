@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import banner from "../assets/images/banner.png";
 
@@ -16,9 +17,9 @@ export default function Hero() {
           fetchPriority="high"
           alt="Cursos prácticos, con expertos, para que aprendas, emprendas y transformes tu futuro. Crea, aprende, emprende. Formación real para un futuro extraordinario."
         />
-        <a className="button hero-button" href="#cursos">
+        <Link className="button hero-button" to="/cursos">
           Explorar cursos <ArrowRight size={19} />
-        </a>
+        </Link>
       </div>
     </section>
   );

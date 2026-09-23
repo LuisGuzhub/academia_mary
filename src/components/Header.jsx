@@ -1,41 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowUpRight, Menu, Search, X } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+import { navigation, secondaryNavigation } from "../data/site";
 import Logo from "./Logo";
-
-const links = [
-  ["inicio", "Inicio"],
-  ["cursos", "Cursos"],
-  ["nosotros", "Nosotros"],
-  ["instructores", "Instructores"],
-  ["blog", "Blog"],
-  ["contacto", "Contacto"],
-];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("inicio");
   const toggle = useRef(null);
-  useEffect(() => {
-    const updateActive = () => {
-      const threshold =
-        document.querySelector(".site-header").offsetHeight + 60;
-      const current = [...links]
-        .reverse()
-        .find(
-          ([id]) =>
-            document.getElementById(id)?.getBoundingClientRect().top <=
-            threshold,
-        );
-      setActive(current?.[0] ?? "inicio");
-    };
-    updateActive();
-    window.addEventListener("scroll", updateActive, { passive: true });
-    window.addEventListener("resize", updateActive);
-    return () => {
-      window.removeEventListener("scroll", updateActive);
-      window.removeEventListener("resize", updateActive);
-    };
-  }, []);
   function closeOnEscape(event) {
     if (event.key === "Escape") {
       setOpen(false);
@@ -61,32 +32,34 @@ export default function Header() {
           className={`main-nav ${open ? "is-open" : ""}`}
           aria-label="Navegación principal"
         >
-          {links.map(([id, title]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className={active === id ? "active" : ""}
-              aria-current={active === id ? "location" : undefined}
-              onClick={() => {
-                setActive(id);
-                setOpen(false);
-              }}
+          {[...navigation, ...secondaryNavigation].map(([path, title]) => (
+            <NavLink
+              key={path}
+              to={path}
+              end={path === "/"}
+              className={({ isActive }) =>
+                [
+                  isActive ? "active" : "",
+                  secondaryNavigation.some(([item]) => item === path)
+                    ? "mobile-nav-link"
+                    : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")
+              }
+              onClick={() => setOpen(false)}
             >
               {title}
-            </a>
+            </NavLink>
           ))}
         </nav>
         <div className="header-actions">
-          <a
-            href="#buscador"
-            className="icon-button"
-            aria-label="Buscar cursos"
-          >
+          <Link to="/cursos" className="icon-button" aria-label="Buscar cursos">
             <Search size={21} />
-          </a>
-          <a href="#cursos" className="button button-small">
+          </Link>
+          <Link to="/cursos" className="button button-small">
             Ver cursos <ArrowUpRight size={17} />
-          </a>
+          </Link>
         </div>
       </div>
     </header>

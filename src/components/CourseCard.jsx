@@ -1,65 +1,59 @@
-import {
-  ArrowUpRight,
-  BookOpen,
-  ChartNoAxesColumnIncreasing,
-  Star,
-} from "lucide-react";
+import { ArrowUpRight, BookOpen, BriefcaseBusiness } from "lucide-react";
+import { Link } from "react-router-dom";
 import { formatPrice } from "../data/catalog";
+import { categories } from "../data/categories";
 
-export default function CourseCard({ course, onEnquire }) {
+export default function CourseCard({ course }) {
   return (
     <article className="course-card">
-      <div className={`course-image image-${course.id}`}>
-        <img
-          src={course.image}
-          alt={course.imageAlt}
-          loading="lazy"
-          width="400"
-          height="250"
-        />
-        {course.badge && (
-          <span
-            className={`course-badge ${course.badge === "Nuevo" ? "badge-new" : ""}`}
-          >
-            {course.badge}
-          </span>
+      <Link
+        to={`/cursos/${course.slug}`}
+        className={`course-image image-${course.id}`}
+        aria-label={`Ver imagen de ${course.title}`}
+      >
+        {course.image ? (
+          <img
+            src={course.image}
+            alt={course.imageAlt}
+            loading="lazy"
+            width="1080"
+            height="1350"
+          />
+        ) : (
+          <div className="course-placeholder">
+            <BriefcaseBusiness size={36} aria-hidden="true" />
+            <span>Formaliza tu negocio</span>
+          </div>
         )}
-      </div>
+      </Link>
       <div className="course-content">
-        <span className="course-format">CURSO EN LÍNEA</span>
-        <h3>{course.title}</h3>
+        <span className="course-format">
+          {categories.find(({ id }) => id === course.category)?.name}
+        </span>
+        <h3>
+          <Link to={`/cursos/${course.slug}`}>{course.title}</Link>
+        </h3>
+        <p className="course-description">{course.shortDescription}</p>
         <div className="course-meta">
           <span>
             <BookOpen size={13} />
-            {course.lessons} clases
+            {course.modality === "presencial"
+              ? "Presencial"
+              : "Consultar modalidad"}
           </span>
-          <span>
-            <ChartNoAxesColumnIncreasing size={13} />
-            {course.level === "todos" ? "Todos los niveles" : "Nivel inicial"}
-          </span>
-        </div>
-        <div className="rating">
-          <span className="stars" aria-hidden="true">
-            {Array.from({ length: 5 }, (_, i) => (
-              <Star key={i} size={12} fill="currentColor" />
-            ))}
-          </span>
-          <strong>{course.rating.toFixed(1)}</strong>
-          <span>({course.reviews})</span>
-          <span className="sr-only">
-            Valoración de {course.rating} sobre 5, {course.reviews} valoraciones
-          </span>
+          {course.level === "inicial" && <span>Nivel inicial</span>}
         </div>
         <div className="course-bottom">
-          <span className="price">{formatPrice(course.price)}</span>
-          <a
-            href="#contacto"
+          <span className="price price-consult">
+            {formatPrice(course.price)}
+          </span>
+          <Link
+            to={`/cursos/${course.slug}`}
             className="course-link"
-            aria-label={`Consultar sobre ${course.title}`}
-            onClick={() => onEnquire(course.title)}
+            aria-label={`Ver curso: ${course.title}`}
           >
-            <ArrowUpRight size={20} />
-          </a>
+            Ver curso <ArrowUpRight size={16} />
+          </Link>
         </div>
       </div>
     </article>

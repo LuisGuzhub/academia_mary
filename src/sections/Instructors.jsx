@@ -8,11 +8,11 @@ export default function Instructors() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">APRENDE CON ACOMPAÑAMIENTO</p>
-            <h2>Personas que comparten lo que saben</h2>
+            <h1 className="section-title">
+              Personas que comparten lo que saben
+            </h1>
           </div>
-          <p className="section-note">
-            Perfiles ilustrativos del equipo docente.
-          </p>
+          <p className="section-note">Conoce a nuestros colaboradores.</p>
         </div>
         <div className="three-column">
           {instructors.map((instructor) => (

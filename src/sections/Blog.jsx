@@ -1,3 +1,4 @@
+import { site } from "../data/site";
 import { blogPosts } from "../data/blogPosts";
 import BlogCard from "../components/BlogCard";
 
@@ -7,9 +8,11 @@ export default function Blog() {
       <div className="section-heading">
         <div>
           <p className="eyebrow">IDEAS PARA SEGUIR CRECIENDO</p>
-          <h2>Un poco de inspiración para tu camino</h2>
+          <h1 className="section-title">
+            Un poco de inspiración para tu camino
+          </h1>
         </div>
-        <span className="section-note">El blog de CGL</span>
+        <span className="section-note">El blog de {site.brandName}</span>
       </div>
       <div className="three-column">
         {blogPosts.map((post, index) => (

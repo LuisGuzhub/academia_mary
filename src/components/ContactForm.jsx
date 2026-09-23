@@ -1,16 +1,37 @@
 import { useState } from "react";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { validateContact, contactFormUrl } from "../data/contact";
 
 export default function ContactForm({ message, setMessage }) {
-  const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [preparedUrl, setPreparedUrl] = useState("");
+  function handleSubmit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form));
+    const nextErrors = validateContact(values);
+    setErrors(nextErrors);
+    setPreparedUrl("");
+    if (Object.keys(nextErrors).length) {
+      form.elements.namedItem(Object.keys(nextErrors)[0]).focus();
+      return;
+    }
+    const url = contactFormUrl(values);
+    setPreparedUrl(url);
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
   return (
     <form
       className="contact-form"
-      onChange={() => setSent(false)}
-      onSubmit={(event) => {
-        event.preventDefault();
-        setSent(true);
+      noValidate
+      onChange={(event) => {
+        setPreparedUrl("");
+        setErrors((current) => ({
+          ...current,
+          [event.target.name]: undefined,
+        }));
       }}
+      onSubmit={handleSubmit}
     >
       <div className="form-row">
         <label htmlFor="contact-name">
@@ -22,7 +43,14 @@ export default function ContactForm({ message, setMessage }) {
             placeholder="Tu nombre"
             required
             maxLength={100}
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "contact-name-error" : undefined}
           />
+          {errors.name && (
+            <small id="contact-name-error" className="form-error">
+              {errors.name}
+            </small>
+          )}
         </label>
         <label htmlFor="contact-email">
           Correo electrónico
@@ -33,7 +61,14 @@ export default function ContactForm({ message, setMessage }) {
             autoComplete="email"
             placeholder="tucorreo@ejemplo.com"
             required
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "contact-email-error" : undefined}
           />
+          {errors.email && (
+            <small id="contact-email-error" className="form-error">
+              {errors.email}
+            </small>
+          )}
         </label>
       </div>
       <label htmlFor="contact-phone">
@@ -58,23 +93,36 @@ export default function ContactForm({ message, setMessage }) {
           rows={4}
           required
           maxLength={3000}
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={
+            errors.message ? "contact-message-error" : undefined
+          }
         />
+        {errors.message && (
+          <small id="contact-message-error" className="form-error">
+            {errors.message}
+          </small>
+        )}
       </label>
       <div className="form-footer">
-        <small>
-          Formulario de demostración. Tus datos no se envían ni se guardan.
-        </small>
+        <small>Se abrirá WhatsApp para que revises y confirmes el envío.</small>
         <button className="button" type="submit">
           Enviar <ArrowRight size={18} />
         </button>
       </div>
       <div role="status" aria-live="polite">
-        {sent && (
-          <p className="form-success">
-            <CheckCircle2 size={20} />
-            Gracias por contactarnos. Esta es una demostración; no se ha enviado
-            ningún mensaje.
-          </p>
+        {preparedUrl && (
+          <div className="form-ready">
+            <p>Mensaje preparado. Confirma el envío en WhatsApp.</p>
+            <a
+              className="text-link"
+              href={preparedUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Si no se abrió, abrir WhatsApp →
+            </a>
+          </div>
         )}
       </div>
     </form>

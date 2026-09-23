@@ -1,10 +1,23 @@
-import { Zap, FileText, Laptop, LayoutGrid } from "lucide-react";
+import {
+  Zap,
+  FileText,
+  Laptop,
+  LayoutGrid,
+  Sparkles,
+  BriefcaseBusiness,
+  Megaphone,
+  ShieldCheck,
+} from "lucide-react";
 
 const icons = {
   electricity: Zap,
   file: FileText,
   laptop: Laptop,
   grid: LayoutGrid,
+  makeup: Sparkles,
+  business: BriefcaseBusiness,
+  marketing: Megaphone,
+  safety: ShieldCheck,
 };
 
 export default function Icon({ name, className = "" }) {

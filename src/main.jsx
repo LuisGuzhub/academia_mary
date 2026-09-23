@@ -5,6 +5,7 @@ import "./styles/variables.css";
 import "./styles/globals.css";
 import "./styles/catalog.css";
 import "./styles/sections.css";
+import "./styles/pages.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

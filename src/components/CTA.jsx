@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight, Lightbulb } from "lucide-react";
 
 export default function CTA() {
@@ -12,9 +13,9 @@ export default function CTA() {
             acercan a tus metas.
           </p>
         </div>
-        <a className="button" href="#cursos">
+        <Link className="button" to="/cursos">
           Quiero empezar ahora <ArrowRight size={18} />
-        </a>
+        </Link>
         <div className="cta-note" aria-hidden="true">
           <Lightbulb size={49} strokeWidth={1.2} />
           <span>

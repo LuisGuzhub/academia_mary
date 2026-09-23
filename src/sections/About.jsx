@@ -1,3 +1,6 @@
+import { site } from "../data/site";
+import SocialLinks from "../components/SocialLinks";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, GraduationCap } from "lucide-react";
 
 export default function About() {
@@ -11,15 +14,15 @@ export default function About() {
           <br />
           empieza contigo.
         </strong>
-        <span className="emblem-bottom">CGL CAPACITACIONES</span>
+        <span className="emblem-bottom">{site.brandName}</span>
       </div>
       <div className="about-copy">
-        <p className="eyebrow">SOMOS CGL CAPACITACIONES</p>
-        <h2>
+        <p className="eyebrow">{site.institutionName}</p>
+        <h1 className="section-title">
           Formación hoy,
           <br />
           <span>oportunidades mañana.</span>
-        </h2>
+        </h1>
         <p>
           Creemos en el poder de aprender algo nuevo. Por eso acercamos
           conocimientos prácticos a personas que quieren crecer, crear y dar
@@ -30,9 +33,10 @@ export default function About() {
           y una metodología enfocada en aprender haciendo. Queremos que
           conviertas cada lección en una habilidad para tu vida.
         </p>
-        <a className="text-link" href="#cursos">
+        <Link className="text-link" to="/cursos">
           Encuentra tu próximo aprendizaje <ArrowUpRight size={19} />
-        </a>
+        </Link>
+        <SocialLinks />
       </div>
     </section>
   );

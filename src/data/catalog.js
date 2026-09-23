@@ -20,4 +20,29 @@ export const filterCourses = (courses, filters) =>
         course.level === filters.level ||
         course.level === "todos"),
   );
-export const formatPrice = (price) => `$${price.toFixed(2)}`;
+export const formatPrice = (price) =>
+  Number.isFinite(price) ? `$${price.toFixed(2)}` : "Consultar precio";
+
+const filterParams = {
+  query: "q",
+  category: "categoria",
+  modality: "modalidad",
+  level: "nivel",
+};
+
+export function filtersFromParams(params) {
+  return Object.fromEntries(
+    Object.entries(filterParams).map(([key, param]) => [
+      key,
+      params.get(param) || "",
+    ]),
+  );
+}
+
+export function filtersToParams(filters) {
+  const params = new URLSearchParams();
+  for (const [key, param] of Object.entries(filterParams)) {
+    if (filters[key]) params.set(param, filters[key]);
+  }
+  return params;
+}
